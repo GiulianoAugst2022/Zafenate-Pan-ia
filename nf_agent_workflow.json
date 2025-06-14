@@ -1,0 +1,178 @@
+{
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "parameters.query",
+        "options": {}
+      },
+      "name": "Get Question",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "query",
+              "value": "={{$json[\"query\"]}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "parameters": {
+        "value1": "={{$json[\"query\"].toLowerCase()}}",
+        "rules": [
+          {
+            "operation": "contains",
+            "value2": "maior montante"
+          },
+          {
+            "operation": "contains",
+            "value2": "maior volume"
+          },
+          {
+            "operation": "contains",
+            "value2": "maior valor"
+          },
+          {
+            "operation": "contains",
+            "value2": "mais notas"
+          }
+        ]
+      },
+      "name": "Switch Pergunta",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "resposta",
+              "value": "CHEMYUNION LTDA recebeu o maior montante: R$ 1.292.418,75"
+            }
+          ]
+        }
+      },
+      "name": "Resposta Maior Montante",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [850, 200]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "resposta",
+              "value": "DIPIFARMA INJETAVEL(DIPIRONA MONOIDR 500MG/ML) 2ML teve o maior volume: 51000 unidades"
+            }
+          ]
+        }
+      },
+      "name": "Resposta Maior Volume",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "resposta",
+              "value": "CHEMYUNION LTDA emitiu a nota de maior valor: R$ 1.292.418,75 (Chave: 35240158309709000153550040001357171266796999)"
+            }
+          ]
+        }
+      },
+      "name": "Resposta Maior Valor",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "resposta",
+              "value": "EMPRES BRASILEIRA DE CORREIOS E TELEGRAFOS emitiu o maior número de notas: 7"
+            }
+          ]
+        }
+      },
+      "name": "Resposta Mais Notas",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [850, 500]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Get Question",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Question": {
+      "main": [
+        [
+          {
+            "node": "Switch Pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Pergunta": {
+      "main": [
+        [
+          {
+            "node": "Resposta Maior Montante",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Resposta Maior Volume",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Resposta Maior Valor",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Resposta Mais Notas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
